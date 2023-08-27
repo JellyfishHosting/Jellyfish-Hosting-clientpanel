@@ -18,6 +18,7 @@ def user():
             current_user = bearer_client.users.get_current_user()
             username = current_user.username
             email = current_user.email
+            avatar = current_user.avatar_url
             usersCollection = mydb['users']
             data = usersCollection.find_one({'email': email})
             if data.get('staff') == "no":
@@ -28,6 +29,7 @@ def user():
         username = current_user.username
         email = current_user.email
         user_id = current_user.id
+        avatar = current_user.avatar_url
         if request.method == 'POST':
             password = request.form.get('password')
             utils.users.update_user(email, password)
@@ -45,4 +47,4 @@ def user():
             password = result.get('password')
     else:
         return redirect(url_for('discord.discord'))
-    return render_template('user.html', password=password, user_id=user_id, username=username)
+    return render_template('user.html', password=password, user_id=user_id, username=username, avatar=avatar)
