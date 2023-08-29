@@ -33,8 +33,8 @@ def dashboard():
         serversCollection = mydb['servers']
         serversData = serversCollection.find({'email': email})
         isBanned = banCollection.find_one({'email': email})
-        reason = isBanned.get('reason')
         if isBanned is not None:
+            reason = isBanned.get('reason')
             return render_template('banned.html', reason=reason)
         if serversData:
             servers = list(serversData)

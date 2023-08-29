@@ -25,8 +25,8 @@ def user():
                 return redirect(url_for('maintenance.maintenance'))
         banCollection = mydb['bans']
         isBanned = banCollection.find_one({'email': email})
-        reason = isBanned.get('reason')
         if isBanned is not None:
+            reason = isBanned.get('reason')
             return render_template('banned.html', reason=reason)
         usersCollection = mydb['users']
         bearer_client = APIClient(session.get('token'), bearer=True)

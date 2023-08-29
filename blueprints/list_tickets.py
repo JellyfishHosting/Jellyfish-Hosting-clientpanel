@@ -21,8 +21,8 @@ def list_tickets():
                 return redirect(url_for('maintenance.maintenance'))
         banCollection = mydb['bans']
         isBanned = banCollection.find_one({'email': email})
-        reason = isBanned.get('reason')
         if isBanned is not None:
+            reason = isBanned.get('reason')
             return render_template('banned.html', reason=reason)
         ticketCollection = mydb['tickets']
         usersCollection = mydb['users']
