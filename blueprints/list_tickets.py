@@ -19,6 +19,10 @@ def list_tickets():
             data = usersCollection.find_one({'email': email})
             if data.get('staff') == "no":
                 return redirect(url_for('maintenance.maintenance'))
+        bearer_client = APIClient(session.get('token'), bearer=True)
+        current_user = bearer_client.users.get_current_user()
+        username = current_user.username
+        email = current_user.email
         banCollection = mydb['bans']
         isBanned = banCollection.find_one({'email': email})
         if isBanned is not None:
