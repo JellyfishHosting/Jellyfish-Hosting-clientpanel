@@ -24,6 +24,7 @@ def dashboard():
         username = current_user.username
         email = current_user.email
         usersCollection = mydb['users']
+        banCollection = mydb['bans']
         data = usersCollection.find_one({"email": email})
         storage_limit = data.get('storage_limit')
         memory_limit = data.get('memory_limit')
@@ -31,6 +32,10 @@ def dashboard():
         server_limit = data.get('server_limit')
         serversCollection = mydb['servers']
         serversData = serversCollection.find({'email': email})
+        isBanned = banCollection.find_one({'email': email})
+        reason = isBanned.get('reason')
+        if isBanned is not None:
+            return render_template('banned.html', reason=reason)
         if serversData:
             servers = list(serversData)
             return render_template('dashboard.html', has_server=True, storage_limit=storage_limit, memory_limit=memory_limit, cpu_limit=cpu_limit, server_limit=server_limit, servers=servers)

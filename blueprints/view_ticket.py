@@ -20,6 +20,11 @@ def view_ticket(ticket_id):
             data = usersCollection.find_one({'email': email})
             if data.get('staff') == "no":
                 return redirect(url_for('maintenance.maintenance'))
+        banCollection = mydb['bans']
+        isBanned = banCollection.find_one({'email': email})
+        reason = isBanned.get('reason')
+        if isBanned is not None:
+            return render_template('banned.html', reason=reason)
         ticket = None
         ticket_id = None
         ticketCollection = mydb['tickets']

@@ -23,6 +23,11 @@ def user():
             data = usersCollection.find_one({'email': email})
             if data.get('staff') == "no":
                 return redirect(url_for('maintenance.maintenance'))
+        banCollection = mydb['bans']
+        isBanned = banCollection.find_one({'email': email})
+        reason = isBanned.get('reason')
+        if isBanned is not None:
+            return render_template('banned.html', reason=reason)
         usersCollection = mydb['users']
         bearer_client = APIClient(session.get('token'), bearer=True)
         current_user = bearer_client.users.get_current_user()

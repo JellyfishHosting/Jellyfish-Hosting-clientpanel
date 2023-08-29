@@ -11,6 +11,7 @@ from blueprints.list_tickets import list_tickets_blueprint
 from blueprints.handle_ticket import handle_ticket_blueprint
 from blueprints.maintenance import maintenance_blueprint
 from blueprints.admindashboard import admin_dashboard_blueprint
+from blueprints.adminban import admin_ban_blueprint
 import config
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config.secret_key
@@ -26,6 +27,7 @@ app.register_blueprint(list_tickets_blueprint)
 app.register_blueprint(handle_ticket_blueprint)
 app.register_blueprint(maintenance_blueprint)
 app.register_blueprint(admin_dashboard_blueprint)
+app.register_blueprint(admin_ban_blueprint)
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html')
