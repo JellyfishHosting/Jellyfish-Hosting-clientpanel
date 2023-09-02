@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, blueprints
+from datetime import timedelta
 from blueprints.index import index_blueprint
 from blueprints.discord import discord_blueprint
 from blueprints.discord_callback import discord_callback_blueprint
@@ -17,6 +18,7 @@ from blueprints.termsofservice import terms_of_service_blueprint
 import config
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config.secret_key
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 app.register_blueprint(index_blueprint)
 app.register_blueprint(discord_blueprint)
 app.register_blueprint(discord_callback_blueprint)
