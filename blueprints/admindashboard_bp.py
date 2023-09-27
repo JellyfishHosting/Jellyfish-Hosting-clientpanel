@@ -26,4 +26,6 @@ def admin_dashboard():
         totalServers = serverData
         totalBans = banData
         totalStaff = staffData
+    else:
+        return redirect(url_for('login.login'))
     return render_template('admin.html', totalUsers=totalUsers, totalServers=totalServers, totalBans=totalBans, totalStaff=totalStaff)

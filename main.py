@@ -4,7 +4,7 @@ import os
 import importlib
 import config
 app = Flask(__name__)
-app.config['SECRET_KEY'] = config.SECRET_KEY                                        # Sets the sessions secret_key
+app.config['SECRET_KEY'] = config.client_secret                                     # Sets the sessions secret_key
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)                    # Sets the cookie / session lifetime to 30 minutes. Meaning every 30 minutes your cookies for this site clears.
 # Get a list of all files in the blueprints folder
 blueprint_folder = "blueprints"
