@@ -21,7 +21,6 @@ def admin_ban():
             username = request.form.get('username')
             reason = request.form.get('reason')
             data = usersCollection.find_one({'username': username})
-            print(data)
             if data == None:
                 flash("Error: There is no one under this username.", 'error')
                 return redirect(url_for('admin_ban.admin_ban'))
