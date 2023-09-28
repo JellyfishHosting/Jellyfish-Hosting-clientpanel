@@ -88,7 +88,7 @@ def create_server():
             if int(current_ram_limit) < int(ram):
                 flash("Error: You don't have enough ram", 'error')
                 return render_template('create_server.html')
-            if int(actual_current_server_limit) <= 0:
+            if int(current_server_limit) <= 0:
                 flash("Error: You ran out of server creations", 'error')
                 return render_template('create_server.html')
             if int(current_storage_limit) < int(storage):
