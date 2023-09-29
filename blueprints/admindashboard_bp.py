@@ -18,10 +18,11 @@ def admin_dashboard():
             flash("Error: You don't have the right permissions to access this page.", "error")
             return redirect(url_for('dashboard.dashboard'))
         serversCollection = mydb['servers']
+        banCollection = mydb['bans']
         userData = usersCollection.count_documents({})
         serverData = serversCollection.count_documents({})
         staffData = usersCollection.count_documents({"staff": "yes"})
-        banData = 0
+        banData = banCollection.count_documents({})
         totalUsers = userData
         totalServers = serverData
         totalBans = banData
