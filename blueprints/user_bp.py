@@ -17,8 +17,10 @@ def user():
         user_id = current_user.id
         avatar = current_user.avatar_url
         usersCollection = mydb['users']
+        ip_data = usersCollection.find_one({'email': email})
+        ip_addr = ip_data.get('ip_addr')
         banCollection = mydb['bans']
-        isBanned = banCollection.find_one({"email": email})
+        isBanned = banCollection.find_one({"email": email, 'ip_addr': ip_addr})
         if isBanned is not None:
             reason = isBanned.get('reason')
             return render_template('banned.html', reason=reason)

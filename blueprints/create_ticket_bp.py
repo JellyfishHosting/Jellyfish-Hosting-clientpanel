@@ -16,7 +16,10 @@ def create_ticket():
         current_user = bearer_client.users.get_current_user()
         email = current_user.email
         banCollection = mydb['bans']
-        isBanned = banCollection.find_one({'email': email})
+        usersCollection = mydb['users']
+        ip_data = usersCollection.find_one({'email': email})
+        ip_addr = ip_data.get('ip_addr')
+        isBanned = banCollection.find_one({'email': email, 'ip_addr': ip_addr})
         if isBanned is not None:
             reason = isBanned.get('reason')
             return render_template('banned.html', reason=reason)

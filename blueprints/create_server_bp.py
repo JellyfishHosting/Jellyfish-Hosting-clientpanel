@@ -40,7 +40,10 @@ def create_server():
         current_user = bearer_client.users.get_current_user()
         email = current_user.email
         banCollection = mydb['bans']
-        isBanned = banCollection.find_one({'email': email})
+        usersCollections = mydb['users']
+        ip_data = usersCollections.find_one({'email': email})
+        ip_addr = ip_data.get('ip_addr')
+        isBanned = banCollection.find_one({'email': email, 'ip_addr': ip_addr})
         if isBanned is not None:
             reason = isBanned.get('reason')
             return render_template('banned.html', reason=reason)
@@ -75,7 +78,6 @@ def create_server():
                     eggid = [15, 16][["Discord JS", "Discord JS (typescript)"].index(software)]
             result = utils.users.list_users_with_email(email=email)
             user_id = result[0]['attributes']['id']
-            usersCollections = mydb['users']
             data = usersCollections.find_one({'email': email})
             current_cpu_limit = data.get('cpu_limit')
             current_ram_limit = data.get('memory_limit')

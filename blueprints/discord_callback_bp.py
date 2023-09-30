@@ -38,12 +38,13 @@ def discord_callback():
     current_user = bearer_client.users.get_current_user()
     username = current_user.username
     email = current_user.email
+    ip_addr = request.environ['REMOTE_ADDR']
     data = usersCollection.find_one({"email": email})
     if data:
         return redirect('/dashboard')
     else:
         letters = string.ascii_uppercase
         password = ''.join(random.choice(letters) for i in range(10))
-        result = create_user(username, email, password)
-        usersCollection.insert_one({'email': email, 'username': username, 'password': password, "storage_limit": 10000, "memory_limit": 2000, "cpu_limit": 100, "server_limit": 2})
+        create_user(username, email, password)
+        usersCollection.insert_one({'email': email, 'username': username, 'password': password, "ip_addr": ip_addr, "storage_limit": 10000, "memory_limit": 2000, "cpu_limit": 100, "server_limit": 2, "staff": "no"})
         return redirect('/dashboard')

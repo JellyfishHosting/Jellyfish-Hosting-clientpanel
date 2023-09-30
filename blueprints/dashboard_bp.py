@@ -27,6 +27,8 @@ def dashboard():
         current_user = bearer_client.users.get_current_user()
         email = current_user.email
         usersCollection = mydb['users']
+        ip_data = usersCollection.find_one({'email': email})
+        ip_addr = ip_data.get('ip_addr')
         banCollection = mydb['bans']
         data = usersCollection.find_one({"email": email})
         storage_limit = data.get('storage_limit')
@@ -35,7 +37,7 @@ def dashboard():
         server_limit = data.get('server_limit')
         serversCollection = mydb['servers']
         serversData = serversCollection.find({'email': email})
-        isBanned = banCollection.find_one({'email': email})
+        isBanned = banCollection.find_one({'email': email, 'ip_addr': ip_addr})
         if isBanned is not None:
             reason = isBanned.get('reason')
             return render_template('banned.html', reason=reason)
