@@ -7,6 +7,23 @@ mongodb_client = flask_pymongo.pymongo.MongoClient(mongo_uri)
 mydb = mongodb_client['jellyfishhost']
 
 bp = Blueprint('user', __name__, template_folder='templates')
+"""
+user_bp handles the user profile and settings page.
+
+It defines a Blueprint 'user' with the template folder 'templates'.
+
+The '/user' route handles GET and POST requests. 
+
+It checks if the user is logged in via the 'token' session variable.
+
+It gets the current user's info from the API. 
+
+It checks if the user is banned.
+
+On POST, it allows updating the user's password.
+
+On GET, it renders the 'user.html' template with the user's info.
+"""
 @bp.route('/user', methods=['GET', 'POST'])
 def user():
     if 'token' in session:

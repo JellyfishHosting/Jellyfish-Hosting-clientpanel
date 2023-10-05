@@ -7,6 +7,20 @@ import random
 mongodb_client = flask_pymongo.pymongo.MongoClient(mongo_uri)
 mydb = mongodb_client['jellyfishhost']
 ticket_counter = 1
+"""
+Creates a blueprint for the create_ticket page.
+
+ticket_counter: Counter for generating unique ticket IDs 
+tickets: List to store ticket objects
+bp: Blueprint instance for create_ticket page
+
+create_ticket():
+    - Checks if user is logged in via session token
+    - Gets current user info via API 
+    - Checks if user is banned
+    - Handles POST request to create new ticket
+    - Renders create_ticket page
+"""
 tickets = []
 bp = Blueprint('create_ticket', __name__, template_folder='templates')
 @bp.route('/create_ticket', methods=['GET', 'POST'])

@@ -7,6 +7,20 @@ mongodb_client = flask_pymongo.pymongo.MongoClient(mongo_uri)
 mydb = mongodb_client['jellyfishhost']
 
 bp = Blueprint('handle_ticket', __name__, template_folder='templates')
+"""
+Route handler for handling a support ticket.
+
+Parameters:
+  - ticket_id: ID of the ticket to handle.
+
+Functionality:
+  - Check for valid user session.
+  - Get current user info from session.
+  - Handle POST request to add message or close ticket.
+  - Add new message to database.
+  - Close ticket by deleting from DB.
+  - Redirect to ticket page or dashboard.
+"""
 @bp.route('/api/handle_ticket/<string:ticket_id>', methods=['GET', 'POST'])
 def handle_ticket(ticket_id):
     if 'token' in session:

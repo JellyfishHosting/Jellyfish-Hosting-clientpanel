@@ -5,6 +5,15 @@ from zenora import APIClient
 mongodb_client = flask_pymongo.pymongo.MongoClient(mongo_uri)
 mydb = mongodb_client['jellyfishhost']
 bp = Blueprint('admin_dashboard', __name__, template_folder='templates')
+"""
+Route handler for the admin dashboard page.
+
+Checks for valid admin user session. 
+Gets admin user info from API using session token.
+Counts documents in MongoDB collections for stats.
+Passes stats data to template to render admin dashboard page.
+If no valid session, redirects to login.
+"""
 @bp.route('/admin', methods=['GET', 'POST'])
 def admin_dashboard():
     if "token" in session:

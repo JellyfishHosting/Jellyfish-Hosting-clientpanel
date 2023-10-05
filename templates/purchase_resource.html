@@ -16,6 +16,8 @@
   <!-- CSS Files -->
   <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
   <link href="../static/css/paper-dashboard.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://www.paypalobjects.com/api/checkout.js"></script>
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../static/demo/demo.css" rel="stylesheet" />
 </head>
@@ -63,7 +65,7 @@
                   <p>Account Settings</p>
                 </a>
               </li>
-              <li class="active ">
+              <li class="">
                 <a href="{{ url_for('create_ticket.create_ticket') }}">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ticket-detailed-fill" viewBox="0 0 16 16">
                     <path d="M0 4.5A1.5 1.5 0 0 1 1.5 3h13A1.5 1.5 0 0 1 16 4.5V6a.5.5 0 0 1-.5.5 1.5 1.5 0 0 0 0 3 .5.5 0 0 1 .5.5v1.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 11.5V10a.5.5 0 0 1 .5-.5 1.5 1.5 0 1 0 0-3A.5.5 0 0 1 0 6V4.5Zm4 1a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5Zm0 5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5ZM4 8a1 1 0 0 0 1 1h6a1 1 0 1 0 0-2H5a1 1 0 0 0-1 1Z"/>
@@ -71,7 +73,7 @@
                   <p>Create Tickets</p>
                 </a>
               </li>
-              <li>
+              <li class="active ">
                 <a href="{{ url_for('list_tickets.list_tickets') }}">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ticket-detailed-fill" viewBox="0 0 16 16">
                     <path d="M0 4.5A1.5 1.5 0 0 1 1.5 3h13A1.5 1.5 0 0 1 16 4.5V6a.5.5 0 0 1-.5.5 1.5 1.5 0 0 0 0 3 .5.5 0 0 1 .5.5v1.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 11.5V10a.5.5 0 0 1 .5-.5 1.5 1.5 0 1 0 0-3A.5.5 0 0 1 0 6V4.5Zm4 1a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5Zm0 5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7a.5.5 0 0 0-.5.5ZM4 8a1 1 0 0 0 1 1h6a1 1 0 1 0 0-2H5a1 1 0 0 0-1 1Z"/>
@@ -94,24 +96,42 @@
         <div class="main-panel">
             <!-- ... (content) ... -->
             <div class="content">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Create Ticket</h5>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST">
-                            <div class="form-group">
-                                <label for="title">Title</label>
-                                <input type="text" class="form-control" id="title" name="title">
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Create Ticket</button>
-                        </form>
-                    </div>
-                </div>
+              <div class="row">
+                  <div class="col-md-4">
+                      <div class="card">
+                          <div class="card-header">
+                              CPU
+                          </div>
+                          <div class="card-body">
+                              <h5 class="card-title">100% CPU</h5>
+                              <button class="paypal-button" data-item-name="100% CPU" data-item-price="1.50">Buy</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-4">
+                      <div class="card">
+                          <div class="card-header">
+                              Ram
+                          </div>
+                          <div class="card-body">
+                              <h5 class="card-title">512MB RAM</h5>
+                              <button class="paypal-button" data-item-name="512MB RAM" data-item-price="1.50">Buy</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-4">
+                      <div class="card">
+                          <div class="card-header">
+                              Storage
+                          </div>
+                          <div class="card-body">
+                              <h5 class="card-title">1000MB Storage</h5>
+                              <button class="paypal-button" data-item-name="1000MB Storage" data-item-price="1.50">Buy</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
             </div>
         </div>
           </div>
@@ -135,6 +155,44 @@
       </footer>
     </div>
   </div>
+  <script>
+    var CREATE_PAYMENT_URL  = 'https://my.jellyfishhosting.xyz/payment';
+    var EXECUTE_PAYMENT_URL = 'https://my.jellyfishhosting.xyz/execute';
+
+    document.querySelectorAll('.paypal-button').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var itemName = this.getAttribute('data-item-name');
+            var itemPrice = this.getAttribute('data-item-price');
+
+            paypal.Button.render({
+
+                env: 'sandbox', // Or 'sandbox'
+
+                commit: true, // Show a 'Pay Now' button
+
+                payment: function() {
+                    return paypal.request.post(CREATE_PAYMENT_URL, {
+                        item_name: itemName,
+                        item_price: itemPrice
+                    }).then(function(data) {
+                        return data.paymentID;
+                    });
+                },
+
+                onAuthorize: function(data) {
+                    return paypal.request.post(EXECUTE_PAYMENT_URL, {
+                        paymentID: data.paymentID,
+                        payerID:   data.payerID,
+                        item: itemName
+                    }).then(function(res) {
+                        console.log(res.success);
+                    });
+                }
+
+            }, button);
+        });
+    });
+</script>
   <script>
 
     updateNodeOptions();

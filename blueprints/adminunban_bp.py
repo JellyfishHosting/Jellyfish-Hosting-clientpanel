@@ -5,6 +5,22 @@ from zenora import APIClient
 mongodb_client = flask_pymongo.pymongo.MongoClient(mongo_uri)
 mydb = mongodb_client['jellyfishhost']
 bp = Blueprint("admin_unban", __name__, template_folder='templates')
+"""
+Route handler for admin user unban page.
+
+Checks for valid admin session and permissions.
+Gets admin user info from API using session token.
+Handles form POST request to unban user.
+Looks up user in MongoDB by username from form.
+Gets user email from MongoDB document.
+Checks if user is banned in bans collection.
+Deletes ban document to unban user if found.
+Sends success/error flash messages.
+Redirects back to admin unban page.
+
+Renders unban page template on GET request. 
+Redirects to login if no valid session.
+"""
 @bp.route('/admin/unban', methods=['GET', 'POST'])
 def admin_unban():
     if "token" in session:

@@ -5,6 +5,13 @@ from zenora import APIClient
 mongodb_client = flask_pymongo.pymongo.MongoClient(mongo_uri)
 mydb = mongodb_client['jellyfishhost']
 bp = Blueprint('list_tickets', __name__, template_folder='templates')
+# Blueprint to handle listing tickets
+# Checks for valid user session 
+# Gets current user info from API
+# Checks if user is banned
+# If staff, gets all tickets
+# Else gets tickets for current user
+# Renders template to display tickets
 @bp.route('/list_tickets', methods=['GET', 'POST'])
 def list_tickets():
     if 'token' in session:

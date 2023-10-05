@@ -8,6 +8,21 @@ sg = sendgrid.SendGridAPIClient(api_key=sendgrid_api_key)
 mongodb_client = flask_pymongo.pymongo.MongoClient(mongo_uri)
 mydb = mongodb_client['jellyfishhost']
 bp = Blueprint('admin_ban', __name__, template_folder='templates')
+"""
+Route handler for admin user account banning page. 
+
+Checks for admin user session and validates permissions.
+Gets current admin user info from API using session token.
+Handles form POST request to ban user account.
+Gets username from form and finds user in MongoDB.
+Gets user email and IP address from MongoDB document.
+Inserts ban document into MongoDB bans collection.
+Sends email notification to banned user.
+Redirects back to admin ban page.
+
+Renders ban page template on GET request.
+Redirects to login if no valid session.
+"""
 @bp.route('/admin/ban', methods=['GET', 'POST'])
 def admin_ban():
     if "token" in session:
