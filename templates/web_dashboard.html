@@ -108,7 +108,7 @@
                             <p class="card-text">Disk Space: 1GB</p>
                             <p class="card-text">Email Accounts: 5</p>
                             <p class="card-text">MySQL Databases: 1</p>
-                            <p class="card-text">Price: £1</p>
+                            <p class="card-text">Monthly Price: £1</p>
                             <button class="paypal-button" data-item-name="tier1" data-item-price="1.00">Buy</button>
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                             <p class="card-text">Disk Space: 10GB</p>
                             <p class="card-text">Email Accounts: 10</p>
                             <p class="card-text">MySQL Databases: 5</p>
-                            <p class="card-text">Price: £2</p>
+                            <p class="card-text">Monthly Price: £2</p>
                             <button class="paypal-button" data-item-name="tier2" data-item-price="2.00">Buy</button>
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                             <p class="card-text">Disk Space: 20GB</p>
                             <p class="card-text">Email Accounts: 15</p>
                             <p class="card-text">MySQL Databases: 10</p>
-                            <p class="card-text">Price: £3</p>
+                            <p class="card-text">Monthly Price: £3</p>
                             <button class="paypal-button" data-item-name="tier3" data-item-price="3.00">Buy</button>
                         </div>
                     </div>
@@ -156,7 +156,7 @@
                             <p class="card-text">Disk Space: Unlimited</p>
                             <p class="card-text">Email Accounts: 20</p>
                             <p class="card-text">MySQL Databases: 20</p>
-                            <p class="card-text">Price: £5</p>
+                            <p class="card-text">Monthly Price: £5</p>
                             <button class="paypal-button" data-item-name="tier4" data-item-price="5.00">Buy</button>
                         </div>
                     </div>
@@ -188,7 +188,7 @@
     </div>
   </div>
   <script>
-    var CREATE_PAYMENT_URL  = 'https://my.jellyfishhosting.xyz/payment';
+    var CREATE_PAYMENT_URL  = 'https://my.jellyfishhosting.xyz/create_subscription';
     var EXECUTE_PAYMENT_URL = 'https://my.jellyfishhosting.xyz/execute';
 
     document.querySelectorAll('.paypal-button').forEach(function(button) {
@@ -204,8 +204,9 @@
 
                 payment: function() {
                     return paypal.request.post(CREATE_PAYMENT_URL, {
-                        item_name: itemName,
-                        item_price: itemPrice
+                        itemName: itemName,
+                        itemPrice: itemPrice,
+                        
                     }).then(function(data) {
                         return data.paymentID;
                     });

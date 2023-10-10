@@ -6,8 +6,8 @@ import flask_pymongo
 mongodb_client = flask_pymongo.pymongo.MongoClient(mongo_uri)
 mydb = mongodb_client['jellyfishhost']
 
-bp = Blueprint('webdashboard', __name__, template_folder="templates")
-@bp.route('/webdashboard', methods=['GET', 'POST'])
+testbp = Blueprint('webdashboard', __name__, template_folder="templates")
+@testbp.route('/webdashboard', methods=['GET', 'POST'])
 def webdashboard():
     if 'token' in session:
         bearer_client = APIClient(session.get('token'), bearer=True)

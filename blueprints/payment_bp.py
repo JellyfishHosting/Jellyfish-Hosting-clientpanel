@@ -4,14 +4,14 @@ from zenora import APIClient
 import paypalrestsdk
 
 paypalrestsdk.configure({
-    "mode": "sandbox",
+    "mode": "live",
     "client_id": client_id_paypal,
     "client_secret": client_secret_paypal
 })
 
 
-bp = Blueprint('payment', __name__, template_folder="templates")
-@bp.route('/payment', methods=['GET', 'POST'])
+testbp = Blueprint('payment', __name__, template_folder="templates")
+@testbp.route('/payment', methods=['GET', 'POST'])
 def payment():
     if "token" in session:
         item_name = request.form['item_name']

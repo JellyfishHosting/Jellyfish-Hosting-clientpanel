@@ -8,12 +8,12 @@ mongodb_client = flask_pymongo.pymongo.MongoClient(mongo_uri)
 mydb = mongodb_client['jellyfishhost']
 
 paypalrestsdk.configure({
-    "mode": "sandbox",
+    "mode": "live",
     "client_id": client_id_paypal,
     "client_secret": client_secret_paypal
 })
-bp = Blueprint('execute', __name__, template_folder="templates")
-@bp.route('/execute', methods=['GET', 'POST'])
+testbp = Blueprint('execute', __name__, template_folder="templates")
+@testbp.route('/execute', methods=['GET', 'POST'])
 def execute():
     item = request.form['item']
     success = False
