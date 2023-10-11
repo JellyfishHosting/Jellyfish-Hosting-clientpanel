@@ -126,25 +126,34 @@
         {% endif %}
         {% endwith %}
         <div class="row">
-          <div class="col-md-4">
-            <div class="card card-user">
-              <div class="image">
-                <img src="../static/img/Jellyfish-Hosting-Graident.png" alt="...">
-              </div>
-              <div class="card-body">
-                {%if jfr|length > 0%}
-                <div class="author">
-                    {% for jfr in jfr %}
+            {% for jfr in jfr %}
+            <div class="col-md-4">
+              <div class="card card-user">
+                <div class="image">
+                  <img src="../static/img/Jellyfish-Hosting-Graident.png" alt="...">
+                </div>
+                <div class="card-body">
+                  <div class="author">
                     <img class="avatar border-gray" src="{{ jfr.avatar_url }}" alt="">
                     <h5 class="title">{{ jfr.guild_name }}</h5>
-                  <p class="description">
-                    Guild ID: {{ jfr.guild_id }}
-                  </p>
-                  <a href="{{ jfr.invite_code }}" class="btn btn-primary">Join the Server</a>
-                  {% endfor %}
+                    <p class="description">
+                      Guild ID: {{ jfr.guild_id }}
+                    </p>
+                    <a href="{{ jfr.invite_code }}" class="btn btn-primary">Join the Server</a>
+                  </div>
                 </div>
-                {% endif %}
               </div>
+            </div>
+            {% endfor %}
+          </div>
+          
+          {% if jfr|length == 0 %}
+          <div class="card">
+            <div class="card-header">
+              <h5 class="card-title">No Servers</h5>
+            </div>
+          </div>
+          {% endif %}
             </div>
           </div>
             </div>
