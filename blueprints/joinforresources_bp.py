@@ -21,7 +21,7 @@ Functionality:
 
 bp = Blueprint('joinforresources', __name__, template_folder='templates')
 @bp.route('/joinforresources', methods=['GET', 'POST'])
-def dashboard():
+def joinforresources():
     if 'token' in session:
         bearer_client = APIClient(session.get('token'), bearer=True)
         current_user = bearer_client.users.get_current_user()
