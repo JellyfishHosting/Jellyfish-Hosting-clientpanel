@@ -7,6 +7,7 @@ import flask_pymongo
 from config import mongo_uri
 import json
 import utils.users
+import datetime
 mongodb_client = flask_pymongo.pymongo.MongoClient(mongo_uri)
 mydb = mongodb_client['jellyfishhost']
 
@@ -101,6 +102,10 @@ def create_server():
             server_limit_db = int(actual_current_server_limit)
             storage_limit_db = int(current_storage_limit) - int(storage)
             location_ids = [locationid]
+            current_date = datetime.datetime.now()
+            formatted_renewal_date = current_date + datetime.timedelta(days=7)
+            date_format = '%Y-%m-%d'
+            renewal_date = formatted_renewal_date.strftime(date_format)
             serversCollection = mydb['servers']
             filter = {'email': email}
             newValues = { "$set": { 'cpu_limit': cpu_limit_db, 'memory_limit': ram_limit_db, 'server_limit': server_limit_db, 'storage_limit': storage_limit_db}}
@@ -110,7 +115,7 @@ def create_server():
                 resultContent = result.content
                 requests = json.loads(resultContent)
                 server_id = requests['attributes']['id']
-                serversCollection.insert_one({"server_name": server_name, "cpu": cpu_limit, "ram": ram, "storage": storage, "email": email, 'server_id': server_id})
+                serversCollection.insert_one({"server_name": server_name, "cpu": cpu_limit, "ram": ram, "storage": storage, "email": email, 'server_id': server_id, 'renewal_date': renewal_date})
                 flash('Success: Server created successfully!', 'success')
                 return redirect(url_for('dashboard.dashboard'))
             except Exception as e:

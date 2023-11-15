@@ -292,6 +292,15 @@
                     <div class="col-md-3">
                       <p>Storage: {{ server.storage }}MB</p>
                     </div>
+                    <div class="col-md-3">
+                      <p>Renewal Date: {{ server.renewal_date }}</p>
+                    </div>
+                    <div class="col-md-3">
+                      <form action="/api/renewal" method="post" class="renewal-button">
+                        <input type="hidden" name="server_name" value="{{ server.server_name }}">
+                        <button type="submit" class="btn btn-primary btn-round">Renewal</button>
+                    </form>
+                    </div>
                   </div>
                   {% endfor %}
                 </div>
