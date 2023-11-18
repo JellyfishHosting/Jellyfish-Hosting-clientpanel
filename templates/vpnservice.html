@@ -48,7 +48,7 @@
                   <p>Dashboard</p>
                 </a>
               </li>
-              <li class="active ">
+              <li class="">
                 <a href="{{ url_for('create_server.create_server') }}">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hdd-fill" viewBox="0 0 16 16">
                     <path d="M0 10a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-1zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm2 0a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zM.91 7.204A2.993 2.993 0 0 1 2 7h12c.384 0 .752.072 1.09.204l-1.867-3.422A1.5 1.5 0 0 0 11.906 3H4.094a1.5 1.5 0 0 0-1.317.782L.91 7.204z"/>
@@ -99,6 +99,14 @@
                   <p>Join for Resources</p>
                 </a>
               </li>
+              <li class="active ">
+                <a href="{{ url_for('vpnservice.vpnservice') }}">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-hdd-fill" viewBox="0 0 16 16">
+                    <path d="M0 10a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-1zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zm2 0a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1zM.91 7.204A2.993 2.993 0 0 1 2 7h12c.384 0 .752.072 1.09.204l-1.867-3.422A1.5 1.5 0 0 0 11.906 3H4.094a1.5 1.5 0 0 0-1.317.782L.91 7.204z"/>
+                  </svg>
+                  <p>VPN Service</p>
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -120,20 +128,19 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Create DirectAdmin Account.</h5>
+                            <h5 class="card-title">Create VPN Account</h5>
+                            <h3 class="card-title">Please check your email after purchasing this package.</h3>
                         </div>
                         <div class="card-body">
                                 <div class="form-group">
-                                    <label for="serverName">Domain</label>
-                                    <input type="text" class="form-control" id="serverName" name="serverName">
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name">
                                 </div>
                                 <div class="form-group">
-                                    <label for="location">Package</label>
+                                    <label for="package">Package</label>
                                     <select class="form-control" id="location" name="plan_id">
-                                        <option value="tier1package" data-plan-id="P-07X18495FX4551743MUZKVEQ">Tier 1 Package: £1 Per Month</option>
-                                        <option value="tier2package" data-plan-id="P-07X18495FX4551743MUZKVEQ">Tier 2 Package: £2 Per Month</option>
-                                        <option value="tier3package" data-plan-id="P-07X18495FX4551743MUZKVEQ">Tier 3 Package: £3 Per Month</option>
-                                        <option value="tier4package" data-plan-id="P-07X18495FX4551743MUZKVEQ">Tier 4 Package: £5 Per Month</option>
+                                        <option value="monthlyvpn" data-plan-id="P-2G736152NY437863NMVMRDKI">Monthly Package: £4 per month</option>
+                                        <option value="yearlyvpn" data-plan-id="P-7N905093C72773810MVMRDDQ">Yearly Package: £30 per year</option>
                                     </select>
                                 </div>
                                 <div id="paypal-button-container"></div>
@@ -164,29 +171,40 @@
   </div>
   <script src="https://www.paypal.com/sdk/js?client-id={{ client_id_paypal }}&vault=true&intent=subscription"></script>
   <script>
-    var selectedOption = document.getElementById('location').options[document.getElementById('location').selectedIndex];
-    var selectedPlanId = selectedOption.getAttribute('data-plan-id');
     paypal.Buttons({
-        createSubscription: function (data, actions) {
-            return actions.subscription.create({
-                'plan_id': selectedPlanId
-            });
-        },
-        onApprove: function (data, actions) {
-            console.log('helloworld')
-            return fetch('/create_directadmin_account', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ subscription_id: data.subscriptionID, plan_id: selectedPlanId, package: document.getElementById('location').value, domain: document.getElementById('serverName').value })
-            })
-        },
-        onError: function (error) {
-            console.error('Error:', error);
-        }
+      createSubscription: function (data, actions) {
+        // Get the selected option and plan ID dynamically when the subscription is created
+        var selectedOption = document.getElementById('location').options[document.getElementById('location').selectedIndex];
+        var selectedPlanId = selectedOption.getAttribute('data-plan-id');
+  
+        return actions.subscription.create({
+          'plan_id': selectedPlanId
+        });
+      },
+      onApprove: function (data, actions) {
+        // Get the selected option and plan ID dynamically when the subscription is approved
+        var selectedOption = document.getElementById('location').options[document.getElementById('location').selectedIndex];
+        var selectedPlanId = selectedOption.getAttribute('data-plan-id');
+  
+        console.log('helloworld');
+        return fetch('/alert_vpn_admins', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            subscription_id: data.subscriptionID,
+            plan_id: selectedPlanId,
+            location: document.getElementById('location').value,
+            name: document.getElementById('name').value
+          })
+        });
+      },
+      onError: function (error) {
+        console.error('Error:', error);
+      }
     }).render('#paypal-button-container');
-</script>
+  </script>
   <!--   Core JS Files   -->
   <script src="../static/js/core/jquery.min.js"></script>
   <script src="../static/js/core/popper.min.js"></script>

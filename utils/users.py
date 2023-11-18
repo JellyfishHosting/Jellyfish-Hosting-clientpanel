@@ -1,6 +1,7 @@
 from pydactyl import PterodactylClient
 from directadmin.api import API
-from config import pterodactyl_secert, pterodactyl_uri, directadmin_password
+from config import pterodactyl_secert, pterodactyl_uri, directadmin_password, vpn_alert_webhook_url
+from discord_webhook import DiscordWebhook
 directadmin_api = API(username="jellyfis", password=directadmin_password, server="https://d3.my-control-panel.com:2222")
 api = PterodactylClient(pterodactyl_uri, pterodactyl_secert)
 def create_user(username, email, password):
@@ -75,3 +76,7 @@ def directadmin_create(username, email, password, domain, package, ip="198.251.8
         notify=notify
     )
     return result
+
+def alert_vpn(name, email, package):
+    webhook = DiscordWebhook(url=vpn_alert_webhook_url, content=f"<@&1175512739456753824> VPN ALERT!\n VPN Name: {name}, Email: {email}, Package: {package}")
+    response = webhook.execute()
