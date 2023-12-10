@@ -70,6 +70,9 @@ def process_server_queue():
                     "renewal_date": server_info['renewal_date']
                 })
                 queue_collection.delete_one({'name': server_name})
+                available_slots -= 1
+                available_slotss = str(available_slots)
+                nodeCollections.update_one({'nodeid': nodeid}, {'slots': available_slotss})
             except Exception as e:
                 print(f"Error: There was an issue when creating the server. {e}")
             time.sleep(1)
