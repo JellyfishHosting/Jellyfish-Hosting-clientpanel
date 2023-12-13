@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, session, request, url_for, redirect, flash
-from config import oauth_uri
+from config import oauth_uri, mongo_uri
 import utils.server
 from utils.nodes import get_node_details
 from zenora import APIClient
 import flask_pymongo
-from config import mongo_uri    
 import json
 from apscheduler.schedulers.background import BackgroundScheduler
 import utils.users
