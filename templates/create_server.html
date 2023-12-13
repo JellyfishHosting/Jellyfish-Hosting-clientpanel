@@ -171,6 +171,13 @@
                           <option value="minecraft">Minecraft</option>
                           <option value="voice">Voice</option>
                           <option value="discord">Discord</option>
+                          <option value="rust">Rust</option>
+                          <option value="among us">Among Us</option>
+                          <option value="beamng">BeamNG</option>
+                          <option value="doom">Doom</option>
+                          <option value="grand theft auto">Grand Theft Auto</option>
+                          <option value="hogwarts legacy">Hogwarts Legacy</option>
+                          <option value="steamcmd servers">SteamCMD Servers</option>
                         </select>
                       </div>
                       <div class="form-group">
@@ -235,6 +242,27 @@
       } else if (selectedCategory === "discord") {
         var discordOptions = ["Discord JS", "Discord JS (typescript)"]
         addOptionsToSelect(softwareSelect, discordOptions)
+      } else if(selectedCategory === "rust") {
+        var rustOptions = ["Rust"]
+        addOptionsToSelect(softwareSelect, rustOptions)
+      } else if(selectedCategory === "among us") {
+        var amongusOptions = ["BetterCrewlink Server", "Crewlink server", "Among Us - Imposter Server"]
+        addOptionsToSelect(softwareSelect, amongusOptions)
+      } else if(selectedCategory === "beamng") {
+        var beamngOptions = ["BeamMP Servers", 'KissMP Server']
+        addOptionsToSelect(softwareSelect, beamngOptions)
+      } else if(selectedCategory === "doom") {
+        var doomOptions = ['Zandoronum']
+        addOptionsToSelect(softwareSelect, doomOptions)
+      } else if(selectedCategory === "grand theft auto") {
+        var grandtheftautoOptions = ["alt:V", "FiveM", "Grand Theft Auto Connected", "Multi Theft Auto", "OpenMP", "RageCOOP", "Rage.MP", "SA-MP"]
+        addOptionsToSelect(softwareSelect, grandtheftautoOptions)
+      } else if(selectedCategory === "hogwarts legacy") {
+        var hogwartslegacyOptions = ['Hogwarp']
+        addOptionsToSelect(softwareSelect, hogwartslegacyOptions)
+      } else if(selectedCategory === "steamcmd servers") {
+        var steamcmdserversOptions = ["7 Days To Die", "ARK: Survival Ascended", "Ark: Survival Evolved", "Arma Reforger", "Arma 3", "Assetto Corsa", "Astro Colony", "Astroneer Dedicated Server", "Avorion", "Barotrama", "BATTALION: Leagacy", "Black Mesa", "Citadel: Forged with Fire", "Conan Exiles", "Core Keeper", "Counter-Strike: Source", "CryoFall", "DayZ (Experimental)", "Don't Starve Together", "Eco", "Empyrion: Galatic Survival", "Fof", "Frozen Flame", "Ground Branch", "Custom ReHLDS Engine Game", "Custom HLDS Engine Game", 'Holdfast NaW', "Hurtworld", "Icarus-Dedicated", "Insurgency: Sandstorm", "Iosoccer Server", "Killing Floor 2", 'Left 4 Dead', 'Left 4 Dead 2', 'Modiverse', 'Mordhau', 'Rust Autowipe', 'Rust Staging', 'Space Engineers']
+        addOptionsToSelect(softwareSelect, steamcmdserversOptions)
       }
     }
 

@@ -120,10 +120,38 @@ def create_server():
                 nestid = 3
                 if software in ["Mumble Server", "Teamspeak3 Server"]:
                     eggid = [12, 13][["Mumble Server", "Teamspeak3 Server"].index(software)]
+            if category == "rust":
+                nestid = 4
+                if software in ["Rust"]:
+                    eggid = [14][["Rust"].index(software)]
             if category == "discord":
                 nestid = 5
                 if software in ["Discord JS", "Discord JS (typescript)"]:  
                     eggid = [15, 16][["Discord JS", "Discord JS (typescript)"].index(software)]
+            if category == "among us":
+                nestid = 8
+                if software in ["BetterCrewlink Server", "Crewlink server", "Among Us - Imposter Server"]:
+                    eggid = [19, 20, 21][["BetterCrewlink Server", "Crewlink server", "Among Us - Imposter Server"].index(software)]
+            if category == "beamng":
+                nestid = 9
+                if software in ["BeamMP Servers", 'KissMP Server']:
+                    eggid = [22, 23][["BeamMP Servers", 'KissMP Server'].index(software)]
+            if category == "doom":
+                nestid = 15
+                if software in ["Zandronum"]:
+                    eggid = [24][["Zandronum"].index(software)]
+            if category == "grand theft auto":
+                nestid = 20
+                if software in ["alt:V", "FiveM", "Grand Theft Auto Connected", "Multi Theft Auto", "OpenMP", "RageCOOP", "Rage.MP", "SA-MP"]:
+                    eggid = [25, 26, 27, 28, 29, 30, 31, 32][["alt:V", "FiveM", "Grand Theft Auto Connected", "Multi Theft Auto", "OpenMP", "RageCOOP", "Rage.MP", "SA-MP"].index(software)]
+            if category == "hogwarts legacy":
+                nestid = 21
+                if software in ["Hogwarp"]:
+                    eggid = [34][["Hogwarp"].index(software)]
+            if category == "steamcmd servers":
+                nestid = 25
+                if software in ["7 Days To Die", "ARK: Survival Ascended", "Ark: Survival Evolved", "Arma Reforger", "Arma 3", "Assetto Corsa", "Astro Colony", "Astroneer Dedicated Server", "Avorion", "Barotrama", "BATTALION: Leagacy", "Black Mesa", "Citadel: Forged with Fire", "Conan Exiles", "Core Keeper", "Counter-Strike: Source", "CryoFall", "DayZ (Experimental)", "Don't Starve Together", "Eco", "Empyrion: Galatic Survival", "Fof", "Frozen Flame", "Ground Branch", "Custom ReHLDS Engine Game", "Custom HLDS Engine Game", 'Holdfast NaW', "Hurtworld", "Icarus-Dedicated", "Insurgency: Sandstorm", "Iosoccer Server", "Killing Floor 2", 'Left 4 Dead', 'Left 4 Dead 2', 'Modiverse', 'Mordhau', 'Rust Autowipe', 'Rust Staging', 'Space Engineers']:
+                    eggid = [35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 73, 74, 75, 76][["7 Days To Die", "ARK: Survival Ascended", "Ark: Survival Evolved", "Arma Reforger", "Arma 3", "Assetto Corsa", "Astro Colony", "Astroneer Dedicated Server", "Avorion", "Barotrama", "BATTALION: Leagacy", "Black Mesa", "Citadel: Forged with Fire", "Conan Exiles", "Core Keeper", "Counter-Strike: Source", "CryoFall", "DayZ (Experimental)", "Don't Starve Together", "Eco", "Empyrion: Galatic Survival", "Fof", "Frozen Flame", "Ground Branch", "Custom ReHLDS Engine Game", "Custom HLDS Engine Game", 'Holdfast NaW', "Hurtworld", "Icarus-Dedicated", "Insurgency: Sandstorm", "Iosoccer Server", "Killing Floor 2", 'Left 4 Dead', 'Left 4 Dead 2', 'Modiverse', 'Mordhau', 'Rust Autowipe', 'Rust Staging', 'Space Engineers'].index(software)]
             result = utils.users.list_users_with_email(email=email)
             user_id = result[0]['attributes']['id']
             data = usersCollections.find_one({'email': email})
