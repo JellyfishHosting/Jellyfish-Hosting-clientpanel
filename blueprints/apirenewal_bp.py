@@ -5,7 +5,7 @@ import datetime
 import flask_pymongo
 mongodb_client = flask_pymongo.pymongo.MongoClient(mongo_uri)
 mydb = mongodb_client['jellyfishhost']
-bp = Blueprint('renewal', __name__, template_folder="templates")
+bp = Blueprint('api_renewal', __name__, template_folder="templates")
 @bp.route('/api/renewal', methods=['GET', 'POST'])
 def renewal():
     if "token" in session:

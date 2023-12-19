@@ -23,6 +23,9 @@ bp = Blueprint('dashboard', __name__, template_folder='templates')
 @bp.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     if 'token' in session:
+        announcementCollection = mydb['announcements']
+        announcements = announcementCollection.find()
+        announcements = list(announcements)
         bearer_client = APIClient(session.get('token'), bearer=True)
         current_user = bearer_client.users.get_current_user()
         email = current_user.email
@@ -43,8 +46,14 @@ def dashboard():
             return render_template('banned.html', reason=reason)
         if serversData:
             servers = list(serversData)
-            return render_template('dashboard.html', has_server=True, storage_limit=storage_limit, memory_limit=memory_limit, cpu_limit=cpu_limit, server_limit=server_limit, servers=servers)
+            if announcements == None:
+              return render_template('dashboard.html', has_server=True, storage_limit=storage_limit, memory_limit=memory_limit, cpu_limit=cpu_limit, server_limit=server_limit, servers=servers)
+            else:
+              return render_template('dashboard.html', has_server=True, storage_limit=storage_limit, memory_limit=memory_limit, cpu_limit=cpu_limit, server_limit=server_limit, servers=servers, announcements=announcements)
         else:
-            return render_template('dashboard.html', storage_limit=storage_limit, memory_limit=memory_limit, cpu_limit=cpu_limit, server_limit=server_limit, has_server=False)
+            if announcements == None:  
+              return render_template('dashboard.html', storage_limit=storage_limit, memory_limit=memory_limit, cpu_limit=cpu_limit, server_limit=server_limit, has_server=False)
+            else:
+               return render_template('dashboard.html', storage_limit=storage_limit, memory_limit=memory_limit, cpu_limit=cpu_limit, server_limit=server_limit, has_server=False, announcements=announcements)
     else:
         return redirect(url_for('login.login'))

@@ -23,6 +23,9 @@ bp = Blueprint('joinforresources', __name__, template_folder='templates')
 @bp.route('/joinforresources', methods=['GET', 'POST'])
 def joinforresources():
     if 'token' in session:
+        announcementCollection = mydb['announcements']
+        announcements = announcementCollection.find()
+        announcements = list(announcements)
         bearer_client = APIClient(session.get('token'), bearer=True)
         current_user = bearer_client.users.get_current_user()
         email = current_user.email
@@ -38,8 +41,14 @@ def joinforresources():
             return render_template('banned.html', reason=reason)
         if jfrData:
             jfr = list(jfrData)
-            return render_template('joinforresources.html', jfr=jfr)
+            if announcements == None:  
+              return render_template('joinforresources.html', jfr=jfr)
+            else:
+               return render_template('joinforresources.html', jfr=jfr, announcements=announcements)
         else:
-            return render_template('joinforresources.html')
+            if announcements == None:
+              return render_template('joinforresources.html')
+            else:  
+              return render_template('joinforresources.html', announcements=announcements)
     else:
         return redirect(url_for('login.login'))

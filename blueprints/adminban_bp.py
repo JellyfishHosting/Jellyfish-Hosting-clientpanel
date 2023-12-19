@@ -26,6 +26,9 @@ Redirects to login if no valid session.
 @bp.route('/admin/ban', methods=['GET', 'POST'])
 def admin_ban():
     if "token" in session:
+        announcementCollection = mydb['announcements']
+        announcements = announcementCollection.find()
+        announcements = list(announcements)
         bearer_client = APIClient(session.get('token'), bearer=True)
         current_user = bearer_client.users.get_current_user()
         email = current_user.email
@@ -56,4 +59,7 @@ def admin_ban():
             return redirect(url_for('admin_ban.admin_ban'))
     else:
         return redirect(url_for('login.login'))
-    return render_template("ban.html")
+    if announcements == None:
+        return render_template("ban.html")
+    else:
+        return render_template("ban.html", announcements=announcements)

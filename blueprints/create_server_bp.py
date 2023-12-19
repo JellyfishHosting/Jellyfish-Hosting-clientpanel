@@ -84,6 +84,9 @@ bp = Blueprint('create_server', __name__, template_folder='templates')
 @bp.route('/create_server', methods=['GET', 'POST'])
 def create_server():
     if 'token' in session:
+        announcementCollection = mydb['announcements']
+        announcements = announcementCollection.find()
+        announcements = list(announcements)
         bearer_client = APIClient(session.get('token'), bearer=True)
         current_user = bearer_client.users.get_current_user()
         email = current_user.email
@@ -223,4 +226,7 @@ def create_server():
                 flash('Success: Server added to our queue. Your server will be created when the selected node has another slot available.')
     else:
         return redirect(url_for('login.login'))
-    return render_template('create_server.html')
+    if announcements == None:
+        return render_template('create_server.html')
+    else:
+        return render_template('create_server.html', announcements=announcements)

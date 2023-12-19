@@ -17,6 +17,9 @@ If no valid session, redirects to login.
 @bp.route('/admin', methods=['GET', 'POST'])
 def admin_dashboard():
     if "token" in session:
+        announcementCollection = mydb['announcements']
+        announcements = announcementCollection.find()
+        announcements = list(announcements)
         bearer_client = APIClient(session.get('token'), bearer=True)
         current_user = bearer_client.users.get_current_user()
         username = current_user.username
@@ -38,4 +41,7 @@ def admin_dashboard():
         totalStaff = staffData
     else:
         return redirect(url_for('login.login'))
-    return render_template('admin.html', totalUsers=totalUsers, totalServers=totalServers, totalBans=totalBans, totalStaff=totalStaff)
+    if announcements == None:
+        return render_template('admin.html', totalUsers=totalUsers, totalServers=totalServers, totalBans=totalBans, totalStaff=totalStaff)
+    else:
+        return render_template('admin.html', totalUsers=totalUsers, totalServers=totalServers, totalBans=totalBans, totalStaff=totalStaff, announcements=announcements)

@@ -14,6 +14,9 @@ bp = Blueprint('vpnservice', __name__, template_folder="templates")
 @bp.route('/vpnservice', methods=['GET', 'POST'])
 def vpnservice():
     if 'token' in session:
+        announcementCollection = mydb['announcements']
+        announcements = announcementCollection.find()
+        announcements = list(announcements)
         bearer_client = APIClient(session.get('token'), bearer=True)
         current_user = bearer_client.users.get_current_user()
         email = current_user.email
@@ -22,7 +25,10 @@ def vpnservice():
         if isBanned is not None:
             reason = isBanned.get('reason')
             return render_template('banned.html', reason=reason)
-        return render_template('vpnservice.html', client_id_paypal=client_id_paypal)
+        if announcements == None:
+            return render_template('vpnservice.html', client_id_paypal=client_id_paypal)
+        else:
+            return render_template('vpnservice.html', client_id_paypal=client_id_paypal, announcements=announcements)
     else:
         return redirect(url_for('login.login'))
 

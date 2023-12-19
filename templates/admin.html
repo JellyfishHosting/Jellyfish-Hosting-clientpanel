@@ -180,6 +180,13 @@
         {% endfor %}
         {% endif %}
         {% endwith %}
+        {% if announcements %}
+        <div class="card" style="background-color: #2596be; margin-top: 20px; padding: 10px;">
+          <h2>{{ announcements[0]['title'] }}</h2>
+          <p>{{ announcements[0]['description'] }}</p>
+        </div>
+        {% endif %}
+      </div>
         <div class="row">
           <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="card card-stats">

@@ -27,6 +27,9 @@ Redirects to login if no valid session.
 @bp.route('/admin/suspend', methods=['GET', 'POST'])
 def admin_suspend():
     if "token" in session:
+        announcementCollection = mydb['announcements']
+        announcements = announcementCollection.find()
+        announcements = list(announcements)
         bearer_client = APIClient(session.get('token'), bearer=True)
         current_user = bearer_client.users.get_current_user()
         email = current_user.email
@@ -57,4 +60,8 @@ def admin_suspend():
             return redirect(url_for('admin_suspend.admin_suspend'))
     else:
         return redirect(url_for('login.login'))
-    return render_template('suspend.html')
+    if announcements == None:
+        return render_template('suspend.html')
+    else:
+        return render_template('suspend.html', announcements=announcements)
+    

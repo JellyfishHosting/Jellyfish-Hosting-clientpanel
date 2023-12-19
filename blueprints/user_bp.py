@@ -27,6 +27,9 @@ On GET, it renders the 'user.html' template with the user's info.
 @bp.route('/user', methods=['GET', 'POST'])
 def user():
     if 'token' in session:
+        announcementCollection = mydb['announcements']
+        announcements = announcementCollection.find()
+        announcements = list(announcements)
         bearer_client = APIClient(session.get('token'), bearer=True)
         current_user = bearer_client.users.get_current_user()
         username = current_user.username
@@ -58,4 +61,7 @@ def user():
             password = result.get('password')
     else:
         return redirect(url_for('login.login'))
-    return render_template('user.html', password=password, user_id=user_id, username=username, avatar=avatar)
+    if announcements == None:
+        return render_template('user.html', password=password, user_id=user_id, username=username, avatar=avatar)
+    else:
+        return render_template('user.html', password=password, user_id=user_id, username=username, avatar=avatar, announcements=announcements)

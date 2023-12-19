@@ -15,6 +15,9 @@ bp = Blueprint('list_tickets', __name__, template_folder='templates')
 @bp.route('/list_tickets', methods=['GET', 'POST'])
 def list_tickets():
     if 'token' in session:
+        announcementCollection = mydb['announcements']
+        announcements = announcementCollection.find()
+        announcements = list(announcements)
         bearer_client = APIClient(session.get('token'), bearer=True)
         current_user = bearer_client.users.get_current_user()
         email = current_user.email
@@ -34,4 +37,7 @@ def list_tickets():
             ticket = ticketCollection.find({"email": email}, {"_id": 0})
     else:
         return redirect(url_for('login.login'))
-    return render_template('list_tickets.html', ticket=ticket)
+    if announcements == None:
+        return render_template('list_tickets.html', ticket=ticket)
+    else:
+        return render_template('list_tickets.html', ticket=ticket, announcements=announcements)
